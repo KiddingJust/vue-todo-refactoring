@@ -5,7 +5,7 @@
     <TodoInput v-on:addTodoItem="addOneItem"></TodoInput>
     <!-- 내려보낼 프롭스 속성 이름 = "현재 컴포넌트 데이터 속성" -->
     <TodoList v-bind:propsdata="todoItems" v-on:removeItem="removeOneItem" v-on:toggleItem="toggleOneItem"></TodoList>
-    <TodoFooter></TodoFooter>
+    <TodoFooter v-on:clearAll="clearAllItems"></TodoFooter>
   </div>
 </template>
 
@@ -42,13 +42,17 @@ export default {
     },
     toggleOneItem: function(todoItem, index){
       // todoItem.completed = !todoItem.completed;
-      this.todoItems[index].completed = !this.todoItems[index].completed = !
+      this.todoItems[index].completed = !this.todoItems[index].completed
 
       //체크 내역을 localStorage에 저장.
       //그런데 localStorage에 update 치는 API는 없음.
       //그래서 삭제 후 다시 저장. 
       localStorage.removeItem(todoItem.item);
       localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
+    },
+    clearAllItems: function(){
+      localStorage.clear();
+      this.todoItems = [];
     }
   },
   created: function() {
